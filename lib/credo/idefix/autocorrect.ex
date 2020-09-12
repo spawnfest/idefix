@@ -16,7 +16,7 @@ defmodule Credo.Idefix.Autocorrect do
         contents = File.read!(file)
         {:ok, ast} = Code.string_to_quoted(contents)
 
-        nast = Macro.prewalk(ast, &fix_readability_single_pipe/1)
+        nast = Macro.prewalk(ast, &Idefix.SinglePipe.fix/1)
 
         result =
           nast
@@ -32,23 +32,4 @@ defmodule Credo.Idefix.Autocorrect do
 
     exec
   end
-
-  defp fix_readability_single_pipe({:|>, _, [{:|>, _, _} | _]} = ast), do: ast
-
-  defp fix_readability_single_pipe({:|>, _meta, [first, second]} = ast) do
-    IO.inspect(ast, label: "Single pipe detected ", limit: :infinity)
-    {mod, line, args} = second
-
-    nast =
-      if args == nil do
-        {mod, line, [first]}
-      else
-        {mod, line, [first| args]}
-      end
-
-    IO.inspect(nast, label: "Single pipe removed ", limit: :infinity)
-    nast
-  end
-
-  defp fix_readability_single_pipe(ast), do: ast
 end
