@@ -4,8 +4,8 @@ defmodule Credo.Idefix.Autocorrect do
   @moduledoc """
   Autocorrects some obvious styling issues example:
     - removing single pipe (a |> IO.inspect)
+    - replace deprecated functions
   """
-
 
   def call(exec, _opts) do
     # TODO: filter issues for Credo.Check.Readability.SinglePipe only
@@ -16,7 +16,7 @@ defmodule Credo.Idefix.Autocorrect do
         contents = File.read!(file)
         {:ok, ast} = Code.string_to_quoted(contents)
 
-        nast = Macro.prewalk(ast, &Idefix.SinglePipe.fix/1)
+        nast = Macro.prewalk(ast, &apply_fixes/1)
 
         result =
           nast
@@ -31,5 +31,11 @@ defmodule Credo.Idefix.Autocorrect do
     end)
 
     exec
+  end
+
+  def apply_fixes(ast) do
+    ast
+    |> Idefix.SinglePipe.fix()
+    |> Idefix.UpgradeFunction.fix()
   end
 end
