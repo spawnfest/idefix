@@ -24,3 +24,14 @@ Currently the Elixir community offers basic support for most editors, including 
 
 The Elixir & Erlang eco system is growing well when it comes to offering packages for different kind of problems. Some packages are written for a very specific use case but in order to use them in your project it still requires some effort from the user to integrate them. We feel (some) of that effort could be automated or semi-automated by holding hands when the packages gets installed. Example: add facebook login for you Phoenix project. Steps:
 1) add package to mix.exs 2) add some config to config.exs 3) change the plugs pipeline to include facebook auth plug 4) customize screens, errors etc custom to the project. Personally it means I juggle 4 screens: my editor, command line, package readme (with examples) and documentation page (hex docs, for custom options). It would be nice if I can stick to editor & command line until I have something working and docs once I'm ready to make customizations.
+
+## How does it work?
+
+Currently the steps are: parse code into AST -> walk through the AST and replace parts of interest -> turn AST back into code.
+
+## Prior art / inspiration
+
+- [Wrangler](http://refactoringtools.github.io/wrangler/)
+- [Atomist](https://atomist.com/)
+- [RefactorErl](http://plc.inf.elte.hu/erlang/)
+- [JS codemod](https://github.com/cpojer/js-codemod)
