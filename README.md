@@ -38,4 +38,6 @@ Currently the steps are: parse code into AST -> walk through the AST and replace
 
 ## Status
 
-Incomplete, I wanted to have some examples which involved running credo and then have the issues be autocorrected, however something didn't play well with loading modules on time as the credo runner complains about missing modules. Weird enough I did get it working on another project :(
+Incomplete (only had a pair of hours this weekend), I wanted to have some examples which involved running credo and then have the issues be autocorrected, however something didn't play well with loading modules on time as the credo runner complains about missing modules. Weird enough I did get it working on another project :(.
+
+So for know it works by calling `mix idefix` and observe the changes to example files (`git diff`).

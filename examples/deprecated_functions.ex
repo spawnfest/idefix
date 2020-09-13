@@ -1,7 +1,5 @@
 defmodule DeprecatedFunctions do
-  @moduledoc """
-  Example of deprecated (or soft-deprecated) functions
-  """
+  @moduledoc "Example of deprecated (or soft-deprecated) functions"
 
   def chunky_bacon(list) do
     Enum.chunk(list, 2)
