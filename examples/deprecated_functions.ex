@@ -12,4 +12,8 @@ defmodule DeprecatedFunctions do
   def output_stacktrace() do
     IO.inspect(System.stacktrace(), label: "Current stacktrace ")
   end
+
+  def old_filter_map() do
+    Enum.filter_map([1, 2, 3], fn x -> rem(x, 2) == 0 end, &(&1 * 2))
+  end
 end

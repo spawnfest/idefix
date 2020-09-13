@@ -16,9 +16,10 @@ defmodule Idefix.UpgradeFunction do
     {:., meta, [{:__aliases__, b, [:Enum]}, :chunk_every]}
   end
 
-  def fix({{:., _a, [{:__aliases__, _b, [:Enum]}, :filter_map]}, _c, [filter, mapper]}) do
+  def fix({{:., _a, [{:__aliases__, _b, [:Enum]}, :filter_map]}, _c, [enum, filter, mapper]}) do
     quote do
-      Enum.filter(unquote(filter))
+      unquote(enum)
+      |> Enum.filter(unquote(filter))
       |> Enum.map(unquote(mapper))
     end
   end
@@ -32,5 +33,7 @@ defmodule Idefix.UpgradeFunction do
   #   {{:., line, [{:__aliases__, line, [:Kernel]}, :is_struct]}, line, args ++ :Regex}
   # end
 
-  def fix(ast), do: ast
+  def fix(ast) do
+    ast
+  end
 end
