@@ -35,3 +35,7 @@ Currently the steps are: parse code into AST -> walk through the AST and replace
 - [Atomist](https://atomist.com/)
 - [RefactorErl](http://plc.inf.elte.hu/erlang/)
 - [JS codemod](https://github.com/cpojer/js-codemod)
+
+## Status
+
+Incomplete, I wanted to have some examples which involved running credo and then have the issues be autocorrected, however something didn't play well with loading modules on time as the credo runner complains about missing modules. Weird enough I did get it working on another project :(
