@@ -6,21 +6,24 @@ defmodule Credo.Idefix.Autocorrect do
     - removing single pipe (a |> IO.inspect)
     - replace deprecated functions
   """
-
+  @spec call(Credo.Execution.t(), Keyword.t()) :: Credo.Execution.t()
   def call(exec, _opts) do
-    # TODO: filter issues for Credo.Check.Readability.SinglePipe only
+    # TODO: filter issues for Credo.Check.Readability.SinglePipe or other interests only
     issues_map = GenServer.call(exec.issues_pid, :to_map)
 
     Enum.each(issues_map, fn
       {"examples/single_pipes.ex" = file, _issues} ->
         contents = File.read!(file)
+        # transfom code to ast
         {:ok, ast} = Code.string_to_quoted(contents)
 
-        nast = Macro.prewalk(ast, &apply_fixes/1)
+        # walk the AST and transform it
+        nast = Macro.postwalk(ast, &apply_fixes/1)
 
+        # turn AST back to code
         result =
           nast
-          |> Macro.to_string()
+          |> Idefix.Macro.to_string()
           |> IO.chardata_to_string()
 
         IO.puts(result)
@@ -33,6 +36,7 @@ defmodule Credo.Idefix.Autocorrect do
     exec
   end
 
+  @spec apply_fixes(Macro.t()) :: Macro.t()
   def apply_fixes(ast) do
     ast
     |> Idefix.SinglePipe.fix()
